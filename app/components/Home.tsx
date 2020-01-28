@@ -36,11 +36,18 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     updateUrl(event.target.value)
   }
 
+  const handleDelete = index => {
+    const tabItem = tabs.filter((tab,tabIndex) => {
+      return tabIndex !== index
+    })
+    updateUrl(tabItem);
+  }
+
   return (
     <>
       {
         tabs.map(
-          (tab: BrowserTab, index: number) => <button onClick={() => setTabIndex(index)} key={index}>{tab.title}</button>
+          (tab: BrowserTab, index: number) => <><img src="../Recraft_relic_web_logo_icon.png" /><button className="urlview" onClick={() => setTabIndex(index)} key={index}>{tab.title}<i className="fa fa-times" onClick={() => handleDelete(index)}></i></button></>
         )
       }
       {

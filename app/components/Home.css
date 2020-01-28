@@ -12,3 +12,27 @@
 .container a {
   font-size: 1.4rem;
 }
+
+input {
+  -webkit-appearance: none;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 150px;
+  padding: 5px 10px;
+  border-right: 0;
+}
+
+.fav-tab {
+  background: url(../Recraft_relic_web_logo_icon.png);
+  background-size: 10%;
+}
+
+i {
+  margin-left: 10px;
+}
+
+button {
+  -webkit-appearance: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
