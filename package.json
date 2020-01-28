@@ -22,7 +22,7 @@
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
     "package-linux": "yarn build && electron-builder build --linux",
     "package-win": "yarn build && electron-builder build --win --x64",
-    "postinstall": "node -r @babel/register internals/scripts/CheckNativeDep.js && yarn flow-typed && electron-builder install-app-deps && yarn build-dll && opencollective-postinstall",
+    "postinstall": "node -r @babel/register internals/scripts/CheckNativeDep.js && electron-builder install-app-deps && yarn build-dll && opencollective-postinstall",
     "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{js,jsx,json,html,css,less,scss,yml}'",
     "postlint-styles-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{css,scss}'",
     "preinstall": "node ./internals/scripts/CheckYarn.js",
@@ -261,6 +261,8 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.0",
     "@hot-loader/react-dom": "^16.11.0",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
     "connected-react-router": "^6.6.1",
     "core-js": "^3.5.0",
     "devtron": "^1.4.0",
@@ -276,7 +278,8 @@
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.16",
+    "ts-loader": "^6.2.1"
   },
   "devEngines": {
     "node": ">=7.x",
