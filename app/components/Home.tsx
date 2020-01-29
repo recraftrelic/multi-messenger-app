@@ -66,7 +66,7 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
           )
         )
       }
-      <input value={url} onChange={onUrlChange} />
+      <span className="search-bar"><i className="fa fa-search"></i></span><input className="search-tab" value={url} onChange={onUrlChange} />
       <button className="new-tab" onClick={!url ? null : handleNewTab}><span><i className="fa fa-plus"></i></span></button>
     </>
   )
