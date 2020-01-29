@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BrowserTabRenderer from "./BrowserTabRenderer";
 
-import './Home.css';
+import './Home.global.css';
 
 type Props = {};
 
@@ -30,6 +30,7 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     const modifiedTabs: BrowserTab[] = tabs.concat(newTab);
     updateTabs(modifiedTabs);
     setTabIndex(modifiedTabs.length - 1);
+    updateUrl('');
   }
 
   const onUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,14 +41,16 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     const tabItem = tabs.filter((tab,tabIndex) => {
       return tabIndex !== index
     })
-    updateUrl(tabItem);
+    updateTabs(tabItem);
   }
-
+  console.log(mainTabIndex);
   return (
     <>
       {
         tabs.map(
-          (tab: BrowserTab, index: number) => <><img src="../Recraft_relic_web_logo_icon.png" /><button className="urlview" onClick={() => setTabIndex(index)} key={index}>{tab.title}<i className="fa fa-times" onClick={() => handleDelete(index)}></i></button></>
+          (tab: BrowserTab, index: number) =>  {
+            return <button className={`urlview ${mainTabIndex === index ? 'active' : ''}`} onClick={() => setTabIndex(index)} key={index}><img src="https://recraftrelic.com/images/Recraft_relic_web_logo_icon.png" />{tab.title}<i className="fa fa-times" onClick={() => handleDelete(index)}></i></button>
+          }
         )
       }
       {
@@ -64,7 +67,7 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
         )
       }
       <input value={url} onChange={onUrlChange} />
-      <button onClick={handleNewTab}>New tab</button>
+      <button className="new-tab" onClick={!url ? null : handleNewTab}><span><i className="fa fa-plus"></i></span></button>
     </>
   )
 }

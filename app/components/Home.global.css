@@ -15,24 +15,38 @@
 
 input {
   -webkit-appearance: none;
-  border-radius: 5px;
   border: 1px solid #ccc;
   width: 150px;
   padding: 5px 10px;
-  border-right: 0;
+  background-color: #000;
+  color: #fff;
+  outline: none !important;
 }
 
-.fav-tab {
-  background: url(../Recraft_relic_web_logo_icon.png);
-  background-size: 10%;
+.urlview i {
+  margin-left: 7px;
 }
 
-i {
-  margin-left: 10px;
+.active {
+  background-color: #fff;
+  color: #000;
+}
+
+img {
+  margin-right: 7px;
+  width: 10px;
+}
+
+.new-tab {
+  background: none;
+  border: none;
+  color: #fff;
 }
 
 button {
   -webkit-appearance: none;
-  border-radius: 5px;
   padding: 5px 10px;
+  background-color: #000;
+  color: #fff;
+  outline: none;
 }
