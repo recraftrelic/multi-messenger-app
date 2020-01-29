@@ -33,23 +33,18 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     updateUrl('');
   }
 
-  const onUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateUrl(event.target.value)
-  }
+  const onUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => updateUrl(event.target.value)
 
-  const handleDelete = index => {
-    const tabItem = tabs.filter((tab,tabIndex) => {
-      return tabIndex !== index
-    })
+  const onRemovingTab = index => {
+    const tabItem = tabs.filter((tab,tabIndex) => tabIndex !== index)
     updateTabs(tabItem);
   }
-  console.log(mainTabIndex);
   return (
     <>
       {
         tabs.map(
           (tab: BrowserTab, index: number) =>  {
-            return <button className={`urlview ${mainTabIndex === index ? 'active' : ''}`} onClick={() => setTabIndex(index)} key={index}><img src="https://recraftrelic.com/images/Recraft_relic_web_logo_icon.png" />{tab.title}<i className="fa fa-times" onClick={() => handleDelete(index)}></i></button>
+            return <button className={`urlview ${mainTabIndex === index ? 'active' : ''}`} onClick={() => setTabIndex(index)} key={index}><img src="https://recraftrelic.com/images/Recraft_relic_web_logo_icon.png" />{tab.title}<i className="fa fa-times" onClick={() => onRemovingTab(index)} key={index}></i></button>
           }
         )
       }
@@ -67,7 +62,7 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
         )
       }
       <span className="search-bar"><i className="fa fa-search"></i></span><input className="search-tab" value={url} onChange={onUrlChange} />
-      <button className="new-tab" onClick={!url ? null : handleNewTab}><span><i className="fa fa-plus"></i></span></button>
+      <button className="new-tab" onClick={url ? handleNewTab : null}><span><i className="fa fa-plus"></i></span></button>
     </>
   )
 }
