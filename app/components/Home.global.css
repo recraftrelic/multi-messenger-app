@@ -1,0 +1,52 @@
+.container {
+  position: absolute;
+  top: 30%;
+  left: 10px;
+  text-align: center;
+}
+
+.container h2 {
+  font-size: 5rem;
+}
+
+.container a {
+  font-size: 1.4rem;
+}
+
+input {
+  -webkit-appearance: none;
+  border: 1px solid #ccc;
+  width: 150px;
+  padding: 5px 10px;
+  background-color: #000;
+  color: #fff;
+  outline: none !important;
+}
+
+.urlview i {
+  margin-left: 7px;
+}
+
+.active {
+  background-color: #fff;
+  color: #000;
+}
+
+img {
+  margin-right: 7px;
+  width: 10px;
+}
+
+.new-tab {
+  background: none;
+  border: none;
+  color: #fff;
+}
+
+button {
+  -webkit-appearance: none;
+  padding: 5px 10px;
+  background-color: #000;
+  color: #fff;
+  outline: none;
+}
