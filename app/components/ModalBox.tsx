@@ -1,31 +1,30 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-const ModalBox = (props) => {
-  const {
-    buttonLabel,
-    className,
-    save,
-    cancel, 
-    add,
-    children,
-    onClickSave
-  } = props;
+interface Props {
+    buttonLabel: string;
+    className: string;
+    save: string;
+    cancel: string;
+    add: string;
+    children: React.ReactNode;
+    onClickSave?: (e: React.MouseEvent) => void;
+    modal: boolean;
+    onClickCancel?: (e: React.MouseEvent) => void;
+}
 
-  const [modal, setModal] = useState<boolean>(false);
-  const toggle = () => setModal(!modal);
+const ModalBox: React.FunctionComponent<Props> = (props: Props) => {
 
   return (
     <div>
-      <Button className={add} onClick={toggle}>{buttonLabel}</Button>
-      <Modal isOpen={modal} toggle={toggle} className={className} centered>
-        <ModalHeader toggle={toggle}>Add URL</ModalHeader>
+      <Modal isOpen={props.modal} className={props.className} centered>
+        <ModalHeader>Add URL</ModalHeader>
         <ModalBody>
-          {children}
+          {props.children}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={onClickSave}>{save}</Button>{' '}
-          <Button color="secondary" onClick={toggle}>{cancel}</Button>
+          <Button color="primary" onClick={props.onClickSave}>{props.save}</Button>{' '}
+          <Button color="secondary" onClick={props.onClickCancel}>{props.cancel}</Button>
         </ModalFooter>
       </Modal>
     </div>

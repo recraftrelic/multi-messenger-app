@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-const Fonticon = (props) => {
-    const {
-      className
-    } = props;
+interface Props {
+    className: string;
+}
+
+const FontIcon: React.FunctionComponent<Props> = (props: Props) => {
 
     return (
-        <i className ={className} ></i>
+        <i className ={props.className} ></i>
     );
 
 }
 
-export default Fonticon;
+export default FontIcon;

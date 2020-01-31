@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import BrowserTabRenderer from "./BrowserTabRenderer";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import Fonticon from './Fonticon';
+import FontIcon from './FontIcon';
 import ModalBox from './ModalBox';
+import TabsManager from './TabsManger';
 import './Home.global.css';
 
 type Props = {};
@@ -21,12 +22,15 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
   const [modal, setModal] = useState<boolean>(false);
 
   const handleNewTab = (): void => {
+    if (!url || !title) {
+      return
+    }
     const newTab: BrowserTab = {
       url,
       title: title,
       config: {
         webPreferences: {
-          partition: `persist:${title}`
+          partition: `persist:${url}`
         }
       }
     }
@@ -35,22 +39,29 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     updateTabs(modifiedTabs);
     setTabIndex(modifiedTabs.length - 1);
     updateUrl('');
-    setModal(modal);
+    updateTitle('');
+    setModal(false);
   }
 
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => updateTitle(event.target.value)
   const onUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => updateUrl(event.target.value)
 
   const onRemovingTab = (index: number) => {
-    const tabItem = tabs.filter((_,tabIndex) => tabIndex !== index)
-    updateTabs(tabItem);
+    const tabItems: BrowserTab = tabs.filter((_,tabIndex: number) => tabIndex !== index)
+    updateTabs(tabItems);
   }
   return (
     <>
       {
         tabs.map(
           (tab: BrowserTab, index: number) =>  {
-            return <button className={`urlview ${mainTabIndex === index ? 'active' : ''}`} onClick={() => setTabIndex(index)} key={index}><img src="https://recraftrelic.com/images/Recraft_relic_web_logo_icon.png" />{tab.title}<Fonticon className="fa fa-times" onClick={() => onRemovingTab(index)} key={index}></Fonticon></button>
+            return <TabsManager 
+              className={`urlview ${mainTabIndex === index ? 'active' : ''}`} 
+              onClickSave={() => setTabIndex(index)} 
+              add={index}
+              removeTab={() => onRemovingTab(index)}
+              tab={tab}
+              />
           }
         )
       }
@@ -67,8 +78,8 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
           )
         )
       }
-      
-      <ModalBox buttonLabel="+" className="mymodal" save="Save" cancel="Cancel" add="new-tab" onClickSave={url ? handleNewTab : null}>
+      <Button className="new-tab" onClick={() => setModal(true)}>+</Button>
+      <ModalBox className="mymodal" save="Save" cancel="Cancel" onClickCancel={() => setModal(false)} onClickSave={handleNewTab} modal={modal}>
         <label className="search-label">Title </label>
         <input className="search-tab" value={title} onChange={onTitleChange} />
         <label className="search-label">Url </label>
