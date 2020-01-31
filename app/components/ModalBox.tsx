@@ -19,13 +19,15 @@ const ModalBox: React.FunctionComponent<Props> = (props: Props) => {
     <div>
       <Modal isOpen={props.modal} className={props.className} centered>
         <ModalHeader>Add URL</ModalHeader>
+        <form onSubmit={props.onClickSave}>
         <ModalBody>
           {props.children}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={props.onClickSave}>{props.save}</Button>{' '}
+          <Button color="primary">{props.save}</Button>{' '}
           <Button color="secondary" onClick={props.onClickCancel}>{props.cancel}</Button>
         </ModalFooter>
+        </form>
       </Modal>
     </div>
   );
