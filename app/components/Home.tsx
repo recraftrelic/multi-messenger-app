@@ -3,7 +3,7 @@ import BrowserTabRenderer from "./BrowserTabRenderer";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import FontIcon from './FontIcon';
 import ModalBox from './ModalBox';
-import TabsManager from './TabsManger';
+import Tab from './Tab';
 import './Home.global.css';
 
 type Props = {};
@@ -55,7 +55,7 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
       {
         tabs.map(
           (tab: BrowserTab, index: number) =>  {
-            return <TabsManager 
+            return <Tab
               className={`urlview ${mainTabIndex === index ? 'active' : ''}`} 
               onClickSave={() => setTabIndex(index)} 
               add={index}
