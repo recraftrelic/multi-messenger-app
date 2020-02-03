@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BrowserTabRenderer from "./BrowserTabRenderer";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { remote, BrowserView as ElectronBrowserView, BrowserWindow as ElectronBrowserWindow } from "electron";
 import FontIcon from './FontIcon';
 import ModalBox from './ModalBox';
 import Tab from './Tab';
@@ -20,6 +21,9 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
   const [url, updateUrl] = useState<string>('');
   const [title, updateTitle] = useState<string>('');
   const [modal, setModal] = useState<boolean>(false);
+
+  const { BrowserWindow } = remote
+  const focusedWindow: ElectronBrowserWindow = BrowserWindow.getFocusedWindow();
 
   const handleNewTab = (): void => {
     if (!url || !title) {
@@ -43,10 +47,14 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     setModal(false);
   }
 
+  if(modal){
+    focusedWindow.setBrowserView(modal);
+  }
+
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => updateTitle(event.target.value)
   const onUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => updateUrl(event.target.value)
 
-  const onRemovingTab = (index: number) => {
+  const onRemovingTab = (index: number): void => {
     const tabItems: BrowserTab = tabs.filter((_,tabIndex: number) => tabIndex !== index)
     updateTabs(tabItems);
   }
@@ -55,12 +63,14 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
       {
         tabs.map(
           (tab: BrowserTab, index: number) =>  {
-            return <Tab
-              className={`urlview ${mainTabIndex === index ? 'active' : ''}`} 
+            return <Tab 
+              className="urlview" 
               onClickSave={() => setTabIndex(index)} 
               add={index}
               removeTab={() => onRemovingTab(index)}
               tab={tab}
+              key={index}
+              isActive={index == mainTabIndex}
               />
           }
         )
