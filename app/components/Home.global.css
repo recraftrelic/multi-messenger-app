@@ -36,6 +36,7 @@ span.search-bar i {
   color: #fff;
   font-size: 10px;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 span.search-bar {
@@ -61,6 +62,19 @@ span.search-bar {
 
 button {
   outline: none !important;
+}
+
+.cross-btn {
+  -webkit-appearance: none;
+  border: none;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.active .cross-btn {
+  color: #000;
 }
 
 .urlview {

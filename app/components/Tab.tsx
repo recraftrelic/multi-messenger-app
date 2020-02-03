@@ -1,5 +1,6 @@
 import React from 'react';
 import FontIcon from './FontIcon';
+import './Home.global.css';
 
 interface Props {
     className: string;
@@ -13,9 +14,10 @@ interface Props {
 const Tab: React.FunctionComponent<Props> = (props: Props) => {
 
     return (
-        <button className={`${props.className} ${props.isActive ? 'active' : ''}`} onClick={props.onClickSave} key={props.add}><img src="https://recraftrelic.com/images/Recraft_relic_web_logo_icon.png" />{props.tab.title}<FontIcon className="fa fa-times" onClick={props.removeTab}></FontIcon></button>
+        <>
+        <button className={`${props.className} ${props.isActive ? 'active' : ''}`} onClick={props.onClickSave} key={props.add}><img src="https://recraftrelic.com/images/Recraft_relic_web_logo_icon.png" />{props.tab}<a className="cross-btn" onClick={props.removeTab}><FontIcon className="fa fa-times" key={props.add}></FontIcon></a></button>
+        </>
     );
-
 }
 
 export default Tab;

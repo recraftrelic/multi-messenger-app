@@ -21,6 +21,15 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
   const [url, updateUrl] = useState<string>('');
   const [title, updateTitle] = useState<string>('');
   const [modal, setModal] = useState<boolean>(false);
+  const [value, setValue] = useState(localStorage.getItem('tabtitle'));
+
+  useEffect(() => {
+    let getList = localStorage.getItem('tabtitle');
+    getList = JSON.parse(getList);
+    if(getList){
+      title: getList
+    }
+  });
 
   const { BrowserWindow } = remote
   const focusedWindow: ElectronBrowserWindow = BrowserWindow.getFocusedWindow();
@@ -29,12 +38,21 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     if (!url || !title) {
       return
     }
+    var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+    if(!regex .test(url)) {
+      return alert('Invalid URL...')
+    }
+    let matched = tabs.map(item => item.title).includes(title)
+    if(matched){
+      return alert('Unique Title...')
+    }
+
     const newTab: BrowserTab = {
       url,
       title: title,
       config: {
         webPreferences: {
-          partition: `persist:${url}`
+          partition: `persist:${title}`
         }
       }
     }
@@ -45,6 +63,7 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     updateUrl('');
     updateTitle('');
     setModal(false);
+    localStorage.setItem('tabtitle', JSON.stringify(title))
   }
 
   if(modal){
@@ -68,7 +87,7 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
               onClickSave={() => setTabIndex(index)} 
               add={index}
               removeTab={() => onRemovingTab(index)}
-              tab={tab}
+              tab={tab.title}
               key={index}
               isActive={index == mainTabIndex}
               />
@@ -88,6 +107,7 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
           )
         )
       }
+      <button className="urlview">{value}</button>
       <Button className="new-tab" onClick={() => setModal(true)}>+</Button>
       <ModalBox className="mymodal" save="Save" cancel="Cancel" onClickCancel={() => setModal(false)} onClickSave={handleNewTab} modal={modal}>
         <label className="search-label">Title </label>
