@@ -34,7 +34,7 @@ export const setBrowserView = (view: ElectronBrowserView|undefined): void => {
 
   const bounds: Bounds = focusedWindow.getBounds();
 
-  view.setBounds({...bounds, width: bounds.width, height: bounds.height - 50, y: 50});
+  view.setBounds({...bounds, width: bounds.width / 2, height: bounds.height - 50, y: 50});
   view.setAutoResize({width: true, height: true, vertical: true, horizontal: true})
 }
 

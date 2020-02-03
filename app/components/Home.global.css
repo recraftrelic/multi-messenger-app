@@ -13,17 +13,18 @@
   font-size: 1.4rem;
 }
 
+.search-label:first-child {
+  margin-top: 15px;
+}
+
 .search-tab {
   -webkit-appearance: none;
   border: 1px solid #8c8888;
-  width: 150px;
-  padding: 10px 15px;
-  background-color: #000;
-  color: #fff;
+  width: 100%;
+  padding: 10px 10px;
   outline: none !important;
-  padding-left: 25px;
-  border-bottom: none;
-  border-left: none;
+  display: block;
+  margin-bottom: 20px;
 }
 
 .urlview i {
@@ -39,36 +40,40 @@ span.search-bar i {
 
 span.search-bar {
   position: absolute;
-  padding-top: 8px;
+  padding-top: 18px;
   padding-left: 10px;
 }
 
 .urlview img {
   margin-right: 10px;
   width: 12px;
-  vertical-align: bottom;
 }
 
 .new-tab {
-  background: none;
+  background: none !important;
   border: none;
-  color: #000;
+  color: #000 !important;
   padding: 10px 10px;
   -webkit-appearance: none;
-  outline: none;
+  outline: none !important;
   cursor: pointer;
+}
+
+button {
+  outline: none !important;
 }
 
 .urlview {
   -webkit-appearance: none;
-  padding: 10px 10px;
+  padding: 14px 10px;
   background-color: #000;
   color: #fff;
-  outline: none;
+  outline: none !important;
   border-color: #8c8888;
   border-bottom: none;
   border-left: none;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .active {
