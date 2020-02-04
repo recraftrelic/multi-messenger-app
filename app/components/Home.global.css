@@ -60,6 +60,13 @@ span.search-bar {
   cursor: pointer;
 }
 
+.errormsg {
+  width: 100%;
+  float: left;
+  text-align: center;
+  color: #f60f60;
+}
+
 button {
   outline: none !important;
 }
