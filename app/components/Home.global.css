@@ -63,8 +63,9 @@ span.search-bar {
 .errormsg {
   width: 100%;
   float: left;
-  text-align: center;
+  text-align: left;
   color: #f60f60;
+  padding-bottom: 20px;
 }
 
 button {
@@ -87,10 +88,9 @@ button {
 .urlview {
   -webkit-appearance: none;
   padding: 14px 10px;
-  background-color: #000;
-  color: #fff;
+  background-color: #eee;
+  color: #000;
   outline: none !important;
-  border-color: #8c8888;
   border-bottom: none;
   border-left: none;
   cursor: pointer;

@@ -79,10 +79,11 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     localStorage.setItem('tabtitle', JSON.stringify(modifiedTabs))
   }
 
-  const { BrowserWindow } = remote
-  const focusedWindow: ElectronBrowserWindow = BrowserWindow.getFocusedWindow();
   if(modal){
-    focusedWindow.setBrowserView(modal);
+    const { BrowserWindow } = remote
+    let win = new BrowserWindow({ width: 800, height: 600, transparent: true, frame: true, show: false})
+    win.show()
+    win.loadURL('file://' + __dirname + '/second-rendered.html');
   }
 
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
