@@ -81,9 +81,11 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
 
   if(modal){
     const { BrowserWindow } = remote
-    let win = new BrowserWindow({ width: 800, height: 600, transparent: true, frame: true, show: false})
+    let win = new BrowserWindow({ width: 800, height: 600, show: false, webPreferences: {
+      nodeIntegration: true
+    }})
     win.show()
-    win.loadURL('file://' + __dirname + '/second-rendered.html');
+    win.loadURL('file://' + __dirname + '/modal.html');
   }
 
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +98,7 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
   }
 
   const onRemovingTab = (index: number): void => {
-    const tabItems: BrowserTab = tabs.filter((_,tabIndex: number) => tabIndex !== index)
+    const tabItems: BrowserTab[] = tabs.filter((_,tabIndex: number) => tabIndex !== index)
     updateTabs(tabItems);
     localStorage.setItem('tabtitle', JSON.stringify(tabItems))
   }

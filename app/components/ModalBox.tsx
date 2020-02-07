@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 interface Props {
-    buttonLabel: string;
     className: string;
     save: string;
     cancel: string;
-    add: string;
     children: React.ReactNode;
     onClickSave?: (e: React.MouseEvent) => void;
     modal: boolean;
@@ -19,7 +17,7 @@ const ModalBox: React.FunctionComponent<Props> = (props: Props) => {
     <div>
       <Modal isOpen={props.modal} className={props.className} centered>
         <ModalHeader>Add URL</ModalHeader>
-        <form onSubmit={props.onClickSave}>
+        <form onSubmit={() => props.onClickSave}>
         <ModalBody>
           {props.children}
         </ModalBody>

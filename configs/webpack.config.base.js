@@ -32,6 +32,7 @@ export default {
   output: {
     path: path.join(__dirname, '..', 'app'),
     // https://github.com/webpack/webpack/issues/1114
+    filename: '[name].entry.js',
     libraryTarget: 'commonjs2'
   },
 

@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -35,6 +35,9 @@ if (
   process.env.DEBUG_PROD === 'true'
 ) {
   require('electron-debug')();
+  const path = require('path');
+  const p = path.join(__dirname, '..', 'app', 'node_modules');
+  require('module').globalPaths.push(p);
 }
 
 const installExtensions = async () => {

@@ -1,17 +1,18 @@
-import React, { Fragment } from 'react';
-import { render } from 'react-dom';
-import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
-import Root from './containers/Root';
-import { configureStore, history } from './store/configureStore';
-import './app.global.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ModalShow from './components/ModalShow';
 
-const store = configureStore();
+class Modals extends React.Component {
+  render() {
+      return (
+          <div>
+            <ModalShow className="mojo"></ModalShow>
+          </div>
+      );
+  }
+}
 
-const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
-
-render(
-  <AppContainer>
-    <Root store={store} history={history} />
-  </AppContainer>,
+ReactDOM.render(
+ <Modals />,
   document.getElementById('root')
 );
