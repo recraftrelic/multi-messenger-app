@@ -22,7 +22,7 @@ const ModalBox: React.FunctionComponent<Props> = (props: Props) => {
           {props.children}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary">{props.save}</Button>{' '}
+          <Button id="btn" color="primary">{props.save}</Button>{' '}
           <Button color="secondary" onClick={props.onClickCancel}>{props.cancel}</Button>
         </ModalFooter>
         </form>

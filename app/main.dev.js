@@ -15,6 +15,8 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 
+require('events').EventEmitter.prototype._maxListeners = 0;
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -81,6 +83,11 @@ const createWindow = async () => {
       mainWindow.show();
       mainWindow.focus();
     }
+  });
+
+  ipcMain.on('request-update-label-in-second-window', (event, arg) => {
+    // Request to update the label in the renderer process of the second window
+    mainWindow.webContents.send('action-update-label', arg);
   });
 
   mainWindow.on('closed', () => {

@@ -13,8 +13,8 @@ const ModalShow: React.FunctionComponent<Props> = (props: Props) => {
     const [errorTitle, setErrorTitle] = useState<string>('');
     const [errorUrl, setErrorUrl] = useState<string>('');
 
-    const handleNewTab = (): void => {
-
+    const handleNewTab = (event): void => {
+        
         if (!url || !title) {
           return
         }
@@ -24,11 +24,12 @@ const ModalShow: React.FunctionComponent<Props> = (props: Props) => {
           return
         }
 
-        updateUrl('');
-        updateTitle('');
         setModal(false);
         setErrorTitle('')
         setErrorUrl('')
+        let window = remote.getCurrentWindow();
+        window.close();
+        event.preventDefault();
     }
 
     const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,10 +45,10 @@ const ModalShow: React.FunctionComponent<Props> = (props: Props) => {
     <div>
         <ModalBox className="mymodal" save="Save" cancel="Cancel" onClickCancel={() => setModal(false)} onClickSave={handleNewTab} modal={modal}>
             <label className="search-label">Title </label>
-            <input className="search-tab" value={title} onChange={onTitleChange} />
+            <input className="search-tab" id="field" value={title} onChange={onTitleChange} />
             {errorTitle ? <span className="errormsg">{errorTitle}</span> : null}
             <label className="search-label">Url </label>
-            <input className="search-tab" value={url} onChange={onUrlChange} />
+            <input className="search-tab" id="field2" value={url} onChange={onUrlChange} />
             {errorUrl ? <span className="errormsg">{errorUrl}</span> : null}
       </ModalBox>
     </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import BrowserTabRenderer from "./BrowserTabRenderer";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { remote, BrowserView as ElectronBrowserView, BrowserWindow as ElectronBrowserWindow } from "electron";
+import { ipcMain } from 'electron';
 import FontIcon from './FontIcon';
 import ModalBox from './ModalBox';
 import Tab from './Tab';
@@ -15,6 +16,8 @@ interface BrowserTab {
   config?: any;
 }
 
+const { ipcRenderer } = require('electron');
+
 const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
   const [mainTabIndex, setTabIndex] = useState<number>(0);
   const [tabs, updateTabs] = useState<BrowserTab[]>([]);
@@ -23,6 +26,11 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
   const [modal, setModal] = useState<boolean>(false);
   const [errorTitle, setErrorTitle] = useState<string>('');
   const [errorUrl, setErrorUrl] = useState<string>('');
+
+  const { BrowserWindow } = remote
+  let win = new BrowserWindow({ width: 500, height: 420, show: false, frame: false, webPreferences: {
+    nodeIntegration: true, devTools: false
+  }})
 
   useEffect(() => {
     let getList = JSON.parse(localStorage.getItem('tabtitle') || '[]');
@@ -43,16 +51,8 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     
   }, []);
 
-  const handleNewTab = (): void => {
+  const handleNewTab = (title, url): void => {
 
-    if (!url || !title) {
-      return
-    }
-    var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-    if(!regex .test(url)) {
-      setErrorUrl('Invalid URL');
-      return
-    }
     let matched = tabs.map(item => item.title).includes(title)
     if(matched){
       setErrorTitle('Title Already Exists');
@@ -74,28 +74,20 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     updateUrl('');
     updateTitle('');
     setModal(false);
-    setErrorTitle('')
-    setErrorUrl('')
     localStorage.setItem('tabtitle', JSON.stringify(modifiedTabs))
+    win.close();
   }
 
   if(modal){
-    const { BrowserWindow } = remote
-    let win = new BrowserWindow({ width: 800, height: 600, show: false, webPreferences: {
-      nodeIntegration: true
-    }})
     win.show()
     win.loadURL('file://' + __dirname + '/modal.html');
   }
 
-  const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateTitle(event.target.value)
-    setErrorTitle('')
-  }
-  const onUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateUrl(event.target.value)
-    setErrorUrl('')
-  }
+  ipcRenderer.on('action-update-label', (event, arg) => {
+    let argTitle = arg.message;
+    let argUrl = arg.link;
+    handleNewTab(argTitle, argUrl)
+  });
 
   const onRemovingTab = (index: number): void => {
     const tabItems: BrowserTab[] = tabs.filter((_,tabIndex: number) => tabIndex !== index)
@@ -134,14 +126,6 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
       }
       
       <Button className="new-tab" onClick={() => setModal(true)}>+</Button>
-      <ModalBox className="mymodal" save="Save" cancel="Cancel" onClickCancel={() => setModal(false)} onClickSave={handleNewTab} modal={modal}>
-        <label className="search-label">Title </label>
-        <input className="search-tab" value={title} onChange={onTitleChange} />
-        {errorTitle ? <span className="errormsg">{errorTitle}</span> : null}
-        <label className="search-label">Url </label>
-        <input className="search-tab" value={url} onChange={onUrlChange} />
-        {errorUrl ? <span className="errormsg">{errorUrl}</span> : null}
-      </ModalBox>
     </>
   )
 }

@@ -32,6 +32,14 @@
   vertical-align: text-bottom;
 }
 
+.modal-open .modal {
+  background-color: #fff;
+}
+
+.modal-content {
+  border: none;
+}
+
 span.search-bar i {
   color: #fff;
   font-size: 10px;
