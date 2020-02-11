@@ -52,12 +52,6 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
   }, []);
 
   const handleNewTab = (title, url): void => {
-
-    let matched = tabs.map(item => item.title).includes(title)
-    if(matched){
-      setErrorTitle('Title Already Exists');
-      return 
-    }
     
     const newTab: BrowserTab = {
       url,
@@ -75,7 +69,6 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     updateTitle('');
     setModal(false);
     localStorage.setItem('tabtitle', JSON.stringify(modifiedTabs))
-    win.close();
   }
 
   if(modal){

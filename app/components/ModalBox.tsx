@@ -6,7 +6,7 @@ interface Props {
     save: string;
     cancel: string;
     children: React.ReactNode;
-    onClickSave?: (e: React.MouseEvent) => void;
+    onClickSave?: (e: React.FormEvent) => void;
     modal: boolean;
     onClickCancel?: (e: React.MouseEvent) => void;
 }
@@ -17,7 +17,7 @@ const ModalBox: React.FunctionComponent<Props> = (props: Props) => {
     <div>
       <Modal isOpen={props.modal} className={props.className} centered>
         <ModalHeader>Add URL</ModalHeader>
-        <form onSubmit={() => props.onClickSave}>
+        <form onSubmit={(event) => props.onClickSave(event)}>
         <ModalBody>
           {props.children}
         </ModalBody>
