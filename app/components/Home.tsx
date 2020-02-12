@@ -72,8 +72,11 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
   }
 
   if(modal){
-    win.show()
+    win.on('closed', () => {
+      win = null
+    })
     win.loadURL('file://' + __dirname + '/modal.html');
+    win.show();
   }
 
   ipcRenderer.on('action-update-label', (event, arg) => {

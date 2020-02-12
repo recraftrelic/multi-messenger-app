@@ -62,14 +62,20 @@ const ModalShow: React.FunctionComponent<Props> = (props: Props) => {
         setModal(false);
         setErrorTitle('')
         setErrorUrl('')
+        
+        var window = remote.getCurrentWindow();
+        window.close();
+    }
+
+    if(!modal) {
+        ipcRenderer.on('message', (event, arg) => console.log(arg));
+
         let Data = {
-            message: (document.getElementById("field") as HTMLInputElement).value,
-            link: (document.getElementById("field2") as HTMLInputElement).value
+            message: title,
+            link: url
         };
 
         ipcRenderer.send('request-update-label-in-second-window', Data);
-        var window = remote.getCurrentWindow();
-        window.hide();
     }
 
     const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,10 +91,10 @@ const ModalShow: React.FunctionComponent<Props> = (props: Props) => {
     <div>
         <ModalBox className="mymodal" save="Save" cancel="Cancel" onClickCancel={() => setModal(false)} onClickSave={handleNewTab} modal={modal}>
             <label className="search-label">Title </label>
-            <input className="search-tab" id="field" value={title} onChange={onTitleChange} />
+            <input className="search-tab" value={title} onChange={onTitleChange} />
             {errorTitle ? <span className="errormsg">{errorTitle}</span> : null}
             <label className="search-label">Url </label>
-            <input className="search-tab" id="field2" value={url} onChange={onUrlChange} />
+            <input className="search-tab" value={url} onChange={onUrlChange} />
             {errorUrl ? <span className="errormsg">{errorUrl}</span> : null}
         </ModalBox>
     </div>
