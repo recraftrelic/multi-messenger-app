@@ -21,6 +21,9 @@ const ModalShow: React.FunctionComponent<Props> = (props: Props) => {
     const [modal, setModal] = useState<boolean>(true);
     const [errorTitle, setErrorTitle] = useState<string>('');
     const [errorUrl, setErrorUrl] = useState<string>('');
+    const [modalWindow, setModalWindow] = useState<ElectronBrowserWindow>(null);
+
+    var window = remote.getCurrentWindow();
 
     useEffect(() => {
         let getList = JSON.parse(localStorage.getItem('tabtitle') || '[]');
@@ -38,6 +41,7 @@ const ModalShow: React.FunctionComponent<Props> = (props: Props) => {
         })
     
         updateTabs(update);
+        setModalWindow(window)
         
     }, []);
 
@@ -59,24 +63,25 @@ const ModalShow: React.FunctionComponent<Props> = (props: Props) => {
           return
         }
 
-        setModal(false);
-        setErrorTitle('')
-        setErrorUrl('')
-        
-        var window = remote.getCurrentWindow();
-        window.close();
-    }
-
-    if(!modal) {
-        ipcRenderer.on('message', (event, arg) => console.log(arg));
-
         let Data = {
             message: title,
             link: url
         };
 
         ipcRenderer.send('request-update-label-in-second-window', Data);
+
+        setModal(false);
+        setErrorTitle('')
+        setErrorUrl('')
     }
+
+    /*useEffect(() => {
+        if (!modal && modalWindow) {
+            modalWindow.close();
+            setModalWindow(null)
+        }
+        
+    }, [modal]);*/
 
     const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateTitle(event.target.value)

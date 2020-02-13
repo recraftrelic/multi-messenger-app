@@ -86,7 +86,7 @@ const createWindow = async () => {
     }
   });
 
-  ipcMain.once('request-update-label-in-second-window', (event, arg) => {
+  ipcMain.on('request-update-label-in-second-window', (event, arg) => {
     // Request to update the label in the renderer process of the second window
     mainWindow.webContents.send('action-update-label', arg);
   });

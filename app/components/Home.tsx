@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import BrowserTabRenderer from "./BrowserTabRenderer";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { remote, BrowserView as ElectronBrowserView, BrowserWindow as ElectronBrowserWindow } from "electron";
+import { remote, BrowserView as ElectronBrowserView, BrowserWindow as ElectronBrowserWindow, BrowserWindow } from "electron";
 import { ipcMain } from 'electron';
 import FontIcon from './FontIcon';
 import ModalBox from './ModalBox';
@@ -25,12 +25,41 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
   const [title, updateTitle] = useState<string>('');
   const [modal, setModal] = useState<boolean>(false);
   const [errorTitle, setErrorTitle] = useState<string>('');
-  const [errorUrl, setErrorUrl] = useState<string>('');
+  const [errorUrl, setErrorUrl] = useState<string>(''); 
+  const [modalWindow, setModalWindow] = useState<ElectronBrowserWindow>(null)
 
-  const { BrowserWindow } = remote
-  let win = new BrowserWindow({ width: 500, height: 420, show: false, frame: false, webPreferences: {
-    nodeIntegration: true, devTools: false
-  }})
+  const handleNewTab = useCallback((title, url): void => {
+    
+    const newTab: BrowserTab = {
+      url,
+      title: title,
+      config: {
+        webPreferences: {
+          partition: `persist:${title}`
+        }
+      }
+    }
+    const modifiedTabs: BrowserTab[] = tabs.concat(newTab);
+    updateTabs(modifiedTabs);
+    setTabIndex(modifiedTabs.length - 2);
+    updateUrl('');
+    updateTitle('');
+    setModal(false);
+
+    if (modalWindow) {
+      modalWindow.close();
+      setModalWindow(null)
+    }
+
+    localStorage.setItem('tabtitle', JSON.stringify(modifiedTabs))
+  }, [tabs, modalWindow])
+
+  const onRemovingTab = (index: number): void => {
+    const tabItems: BrowserTab[] = tabs.filter((_,tabIndex: number) => tabIndex !== index)
+    updateTabs(tabItems);
+    setTabIndex(tabItems.length - 1);
+    localStorage.setItem('tabtitle', JSON.stringify(tabItems))
+  }
 
   useEffect(() => {
     let getList = JSON.parse(localStorage.getItem('tabtitle') || '[]');
@@ -48,48 +77,38 @@ const MainBrowserWindow: React.FunctionComponent<Props> = (props: Props) => {
     })
 
     updateTabs(update);
-    
-  }, []);
+    setTabIndex(update.length - 1);
+  }, [])
 
-  const handleNewTab = (title, url): void => {
-    
-    const newTab: BrowserTab = {
-      url,
-      title: title,
-      config: {
-        webPreferences: {
-          partition: `persist:${title}`
-        }
-      }
+  useEffect(() => {
+    const onEvent = (event, arg) => {
+      let argTitle = arg.message;
+      let argUrl = arg.link;
+      handleNewTab(argTitle, argUrl)
     }
-    const modifiedTabs: BrowserTab[] = tabs.concat(newTab);
-    updateTabs(modifiedTabs);
-    setTabIndex(modifiedTabs.length - 1);
-    updateUrl('');
-    updateTitle('');
-    setModal(false);
-    localStorage.setItem('tabtitle', JSON.stringify(modifiedTabs))
-  }
 
-  if(modal){
-    win.on('closed', () => {
-      win = null
-    })
-    win.loadURL('file://' + __dirname + '/modal.html');
-    win.show();
-  }
+    ipcRenderer.on('action-update-label', onEvent);
 
-  ipcRenderer.on('action-update-label', (event, arg) => {
-    let argTitle = arg.message;
-    let argUrl = arg.link;
-    handleNewTab(argTitle, argUrl)
-  });
+    return () => ipcRenderer.removeListener('action-update-label', onEvent)
+  }, [handleNewTab]);
 
-  const onRemovingTab = (index: number): void => {
-    const tabItems: BrowserTab[] = tabs.filter((_,tabIndex: number) => tabIndex !== index)
-    updateTabs(tabItems);
-    localStorage.setItem('tabtitle', JSON.stringify(tabItems))
-  }
+  useEffect(() => {
+    if (modal && !modalWindow) {
+      const { BrowserWindow } = remote
+      let win = new BrowserWindow({ width: 500, height: 420, alwaysOnTop: true, show: false, frame: false, webPreferences: {
+        nodeIntegration: true, devTools: false
+      }})
+
+      win.on('closed', () => {
+        win = null
+      })
+      win.loadURL('file://' + __dirname + '/modal.html');
+      win.show();
+
+      setModalWindow(win)
+    }
+  }, [modal])
+
   return (
     <>
       {
