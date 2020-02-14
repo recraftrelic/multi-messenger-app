@@ -32,10 +32,19 @@
   vertical-align: text-bottom;
 }
 
+.modal-open .modal {
+  background-color: #fff;
+}
+
+.modal-content {
+  border: none;
+}
+
 span.search-bar i {
   color: #fff;
   font-size: 10px;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 span.search-bar {
@@ -59,17 +68,37 @@ span.search-bar {
   cursor: pointer;
 }
 
+.errormsg {
+  width: 100%;
+  float: left;
+  text-align: left;
+  color: #f60f60;
+  padding-bottom: 20px;
+}
+
 button {
   outline: none !important;
+}
+
+.cross-btn {
+  -webkit-appearance: none;
+  border: none;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.active .cross-btn {
+  color: #000;
 }
 
 .urlview {
   -webkit-appearance: none;
   padding: 14px 10px;
-  background-color: #000;
-  color: #fff;
+  background-color: #eee;
+  color: #000;
   outline: none !important;
-  border-color: #8c8888;
   border-bottom: none;
   border-left: none;
   cursor: pointer;
