@@ -75,13 +75,10 @@ const ModalShow: React.FunctionComponent<Props> = (props: Props) => {
         setErrorUrl('')
     }
 
-    /*useEffect(() => {
-        if (!modal && modalWindow) {
-            modalWindow.close();
-            setModalWindow(null)
-        }
-        
-    }, [modal]);*/
+    if (!modal && modalWindow) {
+        modalWindow.close();
+        setModalWindow(null)
+    }
 
     const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateTitle(event.target.value)
