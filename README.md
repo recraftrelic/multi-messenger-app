@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./multi-messenger.gif" width="100%" />
+<img src="./multi-messenger.gif" />
 </p>
 
 ## Install
