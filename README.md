@@ -1,8 +1,6 @@
-# Recraft React Native Base App Seed
+# Multi messenger app
 
-This base app is a boilerplate for any react native developer who wants to build a simple app.
-
-The goal of this boilerplate is to provide a simple functional routing & theme app which can be reused with very little to no modification.
+Open multiple session of the same web application. Build with React & Electron.
 
 # Demo
 
