@@ -8,20 +8,18 @@ Open multiple session of the same web application. Build with React & Electron.
 <img src="./multi-messenger.gif" />
 </p>
 
-## Install
+## Steps to Run the Open Source Project
 
-- **If you have installation or compilation issues with this project, please see [our debugging guide](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/400)**
+Use the below commands to clone the project and enter inside the project directory
 
-First, clone the repo via git:
-
-```bash
-git clone --depth 1 --single-branch --branch master https://github.com/electron-react-boilerplate/electron-react-boilerplate.git your-project-name
+```
+git clone git@github.com:recraftrelic/multi-messenger-app.git
+cd multi-messenger-app
 ```
 
 And then install the dependencies with yarn.
 
 ```bash
-$ cd your-project-name
 $ yarn
 ```
 
