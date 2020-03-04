@@ -5,7 +5,7 @@ Open multiple session of the same web application. Build with React & Electron.
 # Demo
 
 <p align="center">
-<img src="./multi-messenger.gif" />
+<img src="./multi-app.png" />
 </p>
 
 ## Steps to Run the Open Source Project
