@@ -1329,17 +1329,13 @@
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
 
-"@types/node@*", "@types/node@>= 8":
-  version "12.12.12"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.12.tgz#529bc3e73dbb35dd9e90b0a1c83606a9d3264bdb"
+"@types/node@*", "@types/node@>= 8", "@types/node@^12.0.12":
+  version "12.12.17"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.17.tgz#191b71e7f4c325ee0fb23bc4a996477d92b8c39b"
 
 "@types/node@^10.12.19":
   version "10.17.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.5.tgz#c1920150f7b90708a7d0f3add12a06bc9123c055"
-
-"@types/node@^12.0.12":
-  version "12.12.17"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.17.tgz#191b71e7f4c325ee0fb23bc4a996477d92b8c39b"
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -4867,9 +4863,10 @@ electron-updater@^4.2.0:
     pako "^1.0.10"
     semver "^6.3.0"
 
-electron@7.1.4:
-  version "7.1.4"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-7.1.4.tgz#ea10b4b61a2456e893e7ad34d62705bbaca150c9"
+electron@9.4.0:
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-9.4.0.tgz#c3c607e3598226ddbaaff8babcdffa8bb2210936"
+  integrity sha512-hOC4q0jkb+UDYZRy8vrZ1IANnq+jznZnbkD62OEo06nU+hIbp2IrwDRBNuSLmQ3cwZMVir0WSIA1qEVK0PkzGA==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
